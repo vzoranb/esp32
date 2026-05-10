@@ -1,0 +1,54 @@
+esphome:
+  name: ble-presence-tracker
+
+esp32:
+  board: adafruit_metro_esp32s3
+  variant: esp32s3
+  framework:
+    type: esp-idf
+    version: recommended
+
+# Essential for the 8MB Octal PSRAM on this board
+psram:
+  mode: octal
+  speed: 80MHz
+
+# Wi-Fi Configuration
+wifi:
+  ssid: "zvbos"
+  password: "97861780838389704195"
+
+  # Enable fallback hotspot (captive portal) in case Wi-Fi connection fails
+  ap:
+    ssid: "Ble-Presence-Tracker Fallback"
+    password: "fallbackpassword"
+
+captive_portal:
+
+# Enable logging (INFO level for low overhead)
+logger:
+  level: INFO
+
+# Enable Home Assistant API (This allows HA to automatically discover the device)
+api:
+
+# Enable Over-The-Air updates
+ota:
+  - platform: esphome
+    password: ""
+
+# Enable Bluetooth scanning
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 320ms
+    window: 320ms
+    active: true
+
+# The sensor that natively reports presence to Home Assistant
+binary_sensor:
+  - platform: ble_presence
+    ibeacon_uuid: "8924589f-5aae-413b-957b-eebe3ac1e250"
+    name: "Pixel 6 Pro BLE Proximity"
+    id: pixel_6_pro_ble
+
+

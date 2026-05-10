@@ -1,0 +1,50 @@
+esphome:
+  name: wifi-presence-hub
+  friendly_name: WiFi Presence Hub
+  min_version: 2025.11.0
+  name_add_mac_suffix: false
+
+esp32:
+  board: adafruit_metro_esp32s3
+  variant: esp32s3
+  framework:
+    type: esp-idf
+    version: recommended
+
+# Essential for the 8MB Octal PSRAM on this board
+psram:
+  mode: octal
+  speed: 80MHz
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "xYO8wy0bvJtX12GtmLsL0LiIil56stzeWTUxgCtzML0="
+
+# Allow Over-The-Air updates
+ota:
+- platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+# Enable Bluetooth scanning (The ESP32 just listens, no battery drain on phone)
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 1.1s
+    window: 30ms
+    active: true # Set to 'false' for purely passive listening
+
+# Turns your ESP32 into a high-powered antenna for Home Assistant
+bluetooth_proxy:
+  active: true
+
+# This creates a sensor that turns "On" when your phone is nearby
+binary_sensor:
+  - platform: ble_presence
+    ibeacon_uuid: "8924589f-5aae-413b-957b-eebe3ac1e250"
+    name: "Pixel 6 Pro Proximity"

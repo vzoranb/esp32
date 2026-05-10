@@ -1,0 +1,41 @@
+On a standard device like the Adafruit Metro ESP32-S3, the Wi-Fi radio is a single piece of hardware. It cannot be in two "states" at the exact same time.
+
+Why they conflict
+To understand the limitation, think of the radio like a walkie-talkie:
+
+Station Mode (STA): The ESP32 is "talking" to your router. It stays on your home's specific Wi-Fi channel (e.g., Channel 6) and constantly exchanges "handshakes" to stay connected to Home Assistant.  
+
+Monitor Mode: The ESP32 becomes a "passive listener." To find your Pixel 6 Pro, it must "hop" through every channel (1 through 11 or 13) to catch the phone's probe requests.
+
+The moment the ESP32 hops away from your home's Wi-Fi channel to scan others, it loses its connection to your router. Home Assistant will immediately report the device as "Offline."
+
+The 3 Ways to Solve This
+If you want to use an ESP32 as a sniffer without losing your Home Assistant connection, you have three professional-grade workarounds.
+
+1. The "Dual-Radio" Setup (Recommended)
+This is the most stable method. You use two cheap ESP32s instead of one expensive one.
+
+ESP-A (The Sniffer): Runs in Monitor Mode. It "sniffs" the air for your Pixel's MAC address. It is not connected to Wi-Fi.
+
+ESP-B (The Bridge): Connected to your home Wi-Fi and Home Assistant.
+
+How they talk: Connect the TX/RX pins of ESP-A to ESP-B. When ESP-A "sees" your phone, it sends a simple serial message to ESP-B, which then tells Home Assistant.
+
+2. The Ethernet Workaround
+If you use an ESP32 board with a built-in Ethernet port (like the WT32-ETH01), you can connect the board to your network via a cable.
+
+Data: Sent over Ethernet to Home Assistant.
+
+Radio: The Wi-Fi radio is now 100% free to stay in Monitor Mode indefinitely without ever needing to connect to an Access Point.
+
+3. The "Serial-to-Pi" Method
+Since you mentioned having a Raspberry Pi 5, you can plug your ESP32 into the Pi via USB.
+
+The ESP32: Stays in Monitor Mode and "sniffs" the air.
+
+The Connection: It sends the data over the USB cable (Serial) to a small script running on your Pi.
+
+The Update: The Pi then sends that data to Home Assistant (either via MQTT or the HA API).
+
+I have Adafruit Industries Metro ESP32-S3 with 16 MB Flash 8 MB PSRAM. Documentation for that device is in the same folder as this file and named adafruit-metro-esp32-s3.pdf. Use it as a reference in case you need any information about it.
+

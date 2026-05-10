@@ -1,0 +1,54 @@
+esphome:
+  name: ble-presence-hub
+
+esp32:
+  board: adafruit_metro_esp32s3
+  variant: esp32s3
+  framework:
+    type: esp-idf
+    version: recommended
+
+# Essential for the 8MB Octal PSRAM on this board
+psram:
+  mode: octal
+  speed: 80MHz
+
+# Output to Serial at 115200 (Matches the Python Bridge)
+logger:
+  level: INFO
+  baud_rate: 115200
+
+# Enable Bluetooth scanning
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 1.1s
+    window: 30ms
+    active: true
+
+# The sensor that turns "On" when your phone's iBeacon is nearby
+binary_sensor:
+  - platform: ble_presence
+    ibeacon_uuid: "8924589f-5aae-413b-957b-eebe3ac1e250"
+    name: "Pixel 6 Pro BLE Proximity"
+    id: pixel_6_pro_ble
+
+# This interval loop continuously checks if the phone is nearby.
+# If it is, it prints the EXACT string our Python Bridge is looking for!
+# This allows us to use the same Python Bridge for both Wi-Fi and BLE!
+interval:
+  - interval: 10s
+    then:
+      - if:
+          condition:
+            binary_sensor.is_on: pixel_6_pro_ble
+          then:
+            - logger.log:
+                format: "TARGET_DETECTED (BLE iBeacon)"
+                level: INFO
+  
+  # Heartbeat to prove the ESP32 hasn't crashed
+  - interval: 15s
+    then:
+      - logger.log:
+          format: "Heartbeat: BLE Scanner active..."
+          level: INFO

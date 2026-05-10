@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  serial-mqtt-bridge:
+    build: .
+    container_name: esp32-serial-bridge
+    restart: unless-stopped
+    devices:
+      # Map the USB serial port into the container
+      # Important: Verify this path. It might be /dev/ttyUSB0 depending on the cable/board.
+      - /dev/ttyACM0:/dev/ttyACM0
+    environment:
+      - MQTT_HOST=192.168.160.105
+      - MQTT_PORT=1883
+      - MQTT_USER=mqtt-user
+      - MQTT_PASS=123456
+      - SERIAL_PORT=/dev/ttyACM0
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
