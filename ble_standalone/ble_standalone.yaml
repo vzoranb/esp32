@@ -42,7 +42,7 @@ esp32_ble_tracker:
   scan_parameters:
     interval: 320ms
     window: 320ms
-    active: true # Required for active Bluetooth Proxy connections
+    active: false # <--- Turned back to passive! Active scanning causes massive radio congestion!
 
 # The sensor that natively reports presence to Home Assistant
 binary_sensor:
@@ -52,7 +52,7 @@ binary_sensor:
     ibeacon_minor: 4949
     name: "BTC011_pro_zv"
     id: BTC011_pro_zv
-    timeout: 15s  # <--- How long to wait before marking "Away"
+    timeout: 30s  # <--- Increased to 60s to completely stop the flapping
 
 # Enable Bluetooth Proxy to forward nearby BLE devices to Home Assistant
 bluetooth_proxy:
