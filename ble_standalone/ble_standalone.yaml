@@ -47,8 +47,8 @@ esp32_ble_tracker:
 # The sensor that natively reports presence to Home Assistant
 binary_sensor:
   - platform: ble_presence
-    ibeacon_uuid: "8924589f-5aae-413b-957b-eebe3ac1e250"
-    name: "Pixel 6 Pro BLE Proximity"
-    id: pixel_6_pro_ble
+    ibeacon_uuid: "426C7565-4368-0302-6D42-6561636F6E73"
+    name: "BTC011_pro_zv_ble_presence"
+    id: BTC011_pro_zv
 
 
