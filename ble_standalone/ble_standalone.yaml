@@ -40,8 +40,8 @@ ota:
 # Enable Bluetooth scanning
 esp32_ble_tracker:
   scan_parameters:
-    interval: 320ms
-    window: 320ms
+#    interval: 320ms
+#    window: 320ms
     active: false # <--- Turned back to passive! Active scanning causes massive radio congestion!
 
 # The sensor that natively reports presence to Home Assistant
@@ -52,8 +52,35 @@ binary_sensor:
     ibeacon_minor: 4949
     name: "BTC011_pro_zv"
     id: BTC011_pro_zv
-    timeout: 30s  # <--- Increased to 60s to completely stop the flapping
+    timeout: 60s  # <--- Increased to 60s to completely stop the flapping
 
 # Enable Bluetooth Proxy to forward nearby BLE devices to Home Assistant
 bluetooth_proxy:
   active: true
+
+# Enable the debug component required for memory/loop_time sensors
+debug:
+
+# System Runtime Statistics
+sensor:
+  # Chip internal temperature
+  - platform: internal_temperature
+    name: "Internal Temperature"
+
+  # Device Uptime
+  - platform: uptime
+    name: "Uptime"
+
+  # Wi-Fi Signal Strength
+  - platform: wifi_signal
+    name: "WiFi Signal"
+    update_interval: 60s
+
+  # Debug Sensor for Memory and CPU/Loop Time
+  - platform: debug
+    free:
+      name: "Free Memory"
+    block:
+      name: "Max Block Free"
+    loop_time:
+      name: "Loop Time"
