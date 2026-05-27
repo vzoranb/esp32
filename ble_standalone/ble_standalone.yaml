@@ -40,8 +40,8 @@ ota:
 # Enable Bluetooth scanning
 esp32_ble_tracker:
   scan_parameters:
-#    interval: 320ms
-#    window: 320ms
+    interval: 320ms
+    window: 320ms
     active: false # <--- Turned back to passive! Active scanning causes massive radio congestion!
 
 # The sensor that natively reports presence to Home Assistant
