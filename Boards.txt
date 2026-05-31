@@ -1,0 +1,13 @@
+Seeed Studio XIAO ESP32-C6
+SKU: 113991254
+
+Seeed Studio XIAO ESP32-C3
+SKU: 113991054
+
+Seeed Studio XIAO ESP32-S3 Sense
+SKU: 113991115
+
+XIAO Logger HAT - A tiny temperature, humidity and light add-on module for XIAO with RTC and battery voltage monitoring
+SKU: 114993446
+
+FireBeetle 2 ESP32-C5 IoT Development Board

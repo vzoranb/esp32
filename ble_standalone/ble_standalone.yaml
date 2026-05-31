@@ -55,8 +55,8 @@ binary_sensor:
     timeout: 60s  # <--- Increased to 60s to completely stop the flapping
 
 # Enable Bluetooth Proxy to forward nearby BLE devices to Home Assistant
-bluetooth_proxy:
-  active: true
+#bluetooth_proxy:
+#  active: true
 
 # Enable the debug component required for memory/loop_time sensors
 debug:
